@@ -13,7 +13,7 @@ Create New post
     <input type="text" id="title" name="title" ><br><br>
     <label for="body">Body :</label><br>
     <input type="text" id="body" name="body" ><br><br>
-    <select class="form-control" id="selectUser" name="user_selected" required focus>
+    <select class="form-control sss" id="selectUser" name="user_selected" required focus>
         <option value="" disabled selected>Please select user</option>
         @foreach($users as $user)
         <option value="{{$user->id}}">{{ $user->name }}</option>
