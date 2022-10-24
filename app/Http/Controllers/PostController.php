@@ -6,6 +6,9 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use App\Http\Requests\PostRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -16,11 +19,7 @@ class PostController extends Controller
     {
         $posts = Post::paginate(5);
 
-        $post = Post::all();
-
-        $post = $post->first();
-
-        return view('index', compact('posts' , 'post'));
+        return view('index', compact('posts',));
     }
 
     /**
@@ -37,14 +36,18 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
+        // $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
 
         Post::create([
             'user_id' => $request->user_selected,
             'title' => $request->title,
             'body' => $request->body,
+            'slug' => Str::slug($request->title, '-'),
+
         ]);
+
 
         return redirect()->route('post.index');
     }
@@ -60,7 +63,7 @@ class PostController extends Controller
         $posts = Post::with('comments')->get();
         // $users = User::with('comments')->throw("posts")->get();
         // dd($users);
-        return view('view', compact('post','posts'));
+        return view('view', compact('post', 'posts'));
     }
 
     /**
@@ -74,7 +77,7 @@ class PostController extends Controller
 
         $post = Post::findorFail($id);
 
-        return view('edit', compact('post' , 'users'));
+        return view('edit', compact('post', 'users'));
     }
 
     /**
@@ -82,13 +85,18 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
         $post = Post::findorFail($id);
+        // $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
+
+
+
         $post->update([
             'user_id' => $request->user_selected,
             'title' => $request->title,
-            'body' => $request->body
+            'body' => $request->body,
+            'slug' => Str::slug($request->title, '-'),
         ]);
 
         return redirect()->route('post.index');
@@ -104,19 +112,15 @@ class PostController extends Controller
         return redirect()->route('post.index');
     }
 
-    public function restore($id)
+    public function restore()
     {
 
         $posts = Post::onlyTrashed()->get();
 
-        // $posts->restore();
-
-        return view('restore' , compact('posts'));
+        return view('restore', compact('posts'));
     }
 
-
-
+    public function checkSlug(Request $request)
+    {
+    }
 }
-
-
-

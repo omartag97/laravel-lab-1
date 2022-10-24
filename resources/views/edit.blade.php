@@ -12,9 +12,15 @@ Create New post
 
     <label for="title">Title :</label><br>
     <input type="text" id="title" name="title" value="{{$post->title}}"><br><br>
+    @error('title')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
     <label for="body">Body :</label><br>
     <input type="text" id="body" name="body" value="{{$post->body}}"><br><br>
+    @error('body')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
     <select class="form-control" id="selectUser" name="user_selected" required focus>
         <option value="" disabled selected>Please select user</option>
@@ -24,6 +30,6 @@ Create New post
     </select>
 
     <input type="submit" value="Update Post">
-    </form>
+</form>
 
 @endsection
