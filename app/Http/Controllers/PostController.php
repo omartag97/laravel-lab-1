@@ -120,7 +120,5 @@ class PostController extends Controller
         return view('restore', compact('posts'));
     }
 
-    public function checkSlug(Request $request)
-    {
-    }
+
 }
