@@ -24,13 +24,10 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => "required|min:3 |unique:posts,title,$this->id",
+            'user_id' => 'exists:users,id',
+            'title' => "required|min:3 |unique:posts,title,$this->post",
             'body' => 'required|min:10',
-            'title.required' => 'Title is required',
-            'title.unique' => 'Title is already taken',
-            'title.min' => 'Title must be at least 3 characters',
-            'body.required' => 'Body is required',
-            'body.min' => 'Body must be at least 10 characters',
+            // 'image' => 'required|mimes:jpeg,png,jpg',
         ];
     }
 }

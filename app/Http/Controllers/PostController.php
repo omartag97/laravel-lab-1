@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Post;
@@ -9,6 +10,10 @@ use App\Models\User;
 use App\Http\Requests\PostRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use App\Jobs\PruneOldPostsJob;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -38,18 +43,24 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        // $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
+        // $request->validate([
+        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
+
+
+        $image = $request->file('image')->getClientOriginalName();
+        $request->file('image')->storeAs('public/images/', $image);
 
         Post::create([
-            'user_id' => $request->user_selected,
+            'user_id' => $request->user_id,
             'title' => $request->title,
             'body' => $request->body,
             'slug' => Str::slug($request->title, '-'),
-
+            'image' => $image,
         ]);
 
-
         return redirect()->route('post.index');
+
     }
 
     /**
@@ -88,15 +99,20 @@ class PostController extends Controller
     public function update(PostRequest $request, $id)
     {
         $post = Post::findorFail($id);
-        // $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
+        if (Storage::exists('/public/images/'. $post->image)) {
+            Storage::delete('/public/images/'. $post->image);
+        }
+        // dd('deleted');
 
+        $image = $request->file('image')->getClientOriginalName();
+        $request->file('image')->storeAs('public/images/', $image);
 
-
-        $post->update([
-            'user_id' => $request->user_selected,
+        Post::create([
+            'user_id' => $request->user_id,
             'title' => $request->title,
             'body' => $request->body,
             'slug' => Str::slug($request->title, '-'),
+            'image' => $image,
         ]);
 
         return redirect()->route('post.index');
@@ -120,5 +136,10 @@ class PostController extends Controller
         return view('restore', compact('posts'));
     }
 
+    public function deleteOldPosts()
+    {
+        // dispatch((new PruneOldPostsJob($data));
 
+        return Queue::push(new PruneOldPostsJob());
+    }
 }

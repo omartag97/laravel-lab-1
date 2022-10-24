@@ -22,6 +22,12 @@ Create New post
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 
+    <label for="image">Poster :</label><br>
+    <input type="file" name="image"><br><br>
+    @error('image_name')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+
     <select class="form-control" id="selectUser" name="user_selected" required focus>
         <option value="" disabled selected>Please select user</option>
         @foreach($users as $user)

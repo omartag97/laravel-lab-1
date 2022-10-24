@@ -17,6 +17,7 @@ Show data
                 <th scope="col">Pagination</th>
                 <th scope="col">Title</th>
                 <th scope="col">slug</th>
+                <th scope="col">Poster</th>
                 <th scope="col">Posted By</th>
                 <th scope="col">Created At</th>
                 <th scope="col">Action</th>
@@ -28,6 +29,7 @@ Show data
                 <th scope="row">{{$post->id}}</th>
                 <td>{{$post->title}}</td>
                 <td>{{$post->slug}}</td>
+                <td> <img width="50px" src="{{asset('storage/images/' . $post->image)}}"</td>
                 <td>{{$post->user->name}}</td>
                 <td>{{$post->created_at->format('Y-m-d')}}</td>
                 <td class="d-flex justify-content-center  ">

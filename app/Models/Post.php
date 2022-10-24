@@ -30,6 +30,7 @@ class Post extends Model
         'body',
         'comment',
         'slug',
+        'image',
     ];
 
     public function user()

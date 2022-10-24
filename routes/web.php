@@ -22,11 +22,11 @@ use Illuminate\Support\Facades\Auth;
 //------------------------------CRUD Users------------------------------
 
 
-// Route::get('/user/register',           [UserController::class ,'register'])->name('user.register');
-// Route::post('/user/register/store',    [UserController::class ,'store'])->name('user.store');
-// Route::get('/user/login',              [UserController::class ,'login'])->name('user.login');
-// Route::get('/user/logout',              [UserController::class ,'logout'])->name('user.logout');
-// Route::post('/user/handlelogin',       [UserController::class ,'handlelogin'])->name('user.handlelogin');
+Route::get('/user/register',           [UserController::class ,'register'])->name('user.register');
+Route::post('/user/register/store',    [UserController::class ,'store'])->name('user.store');
+Route::get('/user/login',              [UserController::class ,'login'])->name('user.login');
+Route::get('/user/logout',              [UserController::class ,'logout'])->name('user.logout');
+Route::post('/user/handlelogin',       [UserController::class ,'handlelogin'])->name('user.handlelogin');
 
 
 //------------------------------CRUD Posts------------------------------
@@ -42,10 +42,14 @@ use Illuminate\Support\Facades\Auth;
 //------------------------------CRUD Posts with Resource------------------------------
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/post/restore', [PostController::class, 'restore'])->name('post.restore');
+Route::get('/post/deleteOldPosts', [PostController::class, 'deleteOldPosts'])->name('post.queue');
 Route::resource('post', PostController::class)->middleware('auth');
 
 Route::get('/post/comment/{id}',      [CommentController::class, 'comment'])->name('post.comment');
 Route::post('/post/store-comment/{id}', [CommentController::class, 'storeComment'])->name('post.storeComment');
+
+
+
+
