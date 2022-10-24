@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,13 +21,26 @@ use App\Http\Controllers\PostController;
 //------------------------------CRUD Users------------------------------
 
 
+Route::get('/user/register',           [UserController::class ,'register'])->name('user.register');
+Route::post('/user/register/store',    [UserController::class ,'store'])->name('user.store');
+Route::get('/user/login',              [UserController::class ,'login'])->name('user.login');
+Route::get('/user/logout',              [UserController::class ,'logout'])->name('user.logout');
+Route::post('/user/handlelogin',       [UserController::class ,'handlelogin'])->name('user.handlelogin');
+
 
 //------------------------------CRUD Posts------------------------------
 
-Route::get('/',  [PostController::class ,'index'])->name('post.index');
-Route::get('/post/create',  [PostController::class ,'create'])->name('post.create');
-Route::post('/post/store',   [PostController::class ,'store'])->name('post.store');
-Route::get('/post/{id}',  [PostController::class ,'show'])->name('post.show');
-Route::get('/post/edit/{id}',  [PostController::class ,'edit'])->name('post.edit');
-Route::post('/post/update/{id}',  [PostController::class ,'update'])->name('post.update');
-Route::get('/post/delete/{id}',  [PostController::class ,'delete'])->name('post.delete');
+// Route::get('/',                 [PostController::class ,'index'])->name('post.index');
+// Route::get('/post/create',      [PostController::class ,'create'])->name('post.create');
+// Route::post('/post/store',      [PostController::class ,'store'])->name('post.store');
+// Route::get('/post/{id}',        [PostController::class ,'show'])->name('post.show');
+// Route::get('/post/edit/{id}',   [PostController::class ,'edit'])->name('post.edit');
+// Route::post('/post/update/{id}',[PostController::class ,'update'])->name('post.update');
+// Route::get('/post/delete/{id}', [PostController::class ,'delete'])->name('post.delete');
+
+//------------------------------CRUD Posts with Resource------------------------------
+Route::resource('post', PostController::class);
+
+Route::get('/post/restore/{id}', [PostController::class, 'restore'])->name('post.restore');
+Route::get('/post/comment/{id}',      [CommentController::class, 'comment'])->name('post.comment');
+Route::post('/post/store-comment/{id}', [CommentController::class, 'storeComment'])->name('post.storeComment');

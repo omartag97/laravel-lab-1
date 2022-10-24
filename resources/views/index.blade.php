@@ -6,8 +6,9 @@ Show data
 
 @section('content')
       <br>
-      <div class="d=flex justify-content-center">
-      <a href="post/create" class="btn btn-success">Add New Post</a>
+      <div class="d-flex justify-content-center m-3">
+      <a href="post/create" class="m-3 btn btn-success">Add New Post</a>
+      <a href="{{route('post.restore',$post->id)}}" class="m-3 btn btn-success">Restore Deleted Posts</a>
       </div>
     <div class="container">
         <table class="table">
@@ -26,17 +27,27 @@ Show data
                 <th scope="row">{{$post->id}}</th>
                 <td>{{$post->title}}</td>
                 <td>{{$post->user->name}}</td>
-                <td>{{$post->created_at}}</td>
-                <td>
-                    <a href="{{route('post.show',$post->id)}}" class="btn btn-secondary">View</a>
-                    <a href="{{route('post.edit',$post->id)}}" class="btn btn-primary">Edit</a>
-                    <a href="{{route('post.delete',$post->id)}}" class="btn btn-danger">Delete</a>
+                <td>{{$post->created_at->format('Y-m-d')}}</td>
+                <td class="d-flex justify-content-center  ">
+                    <a href="{{route('post.show',$post->id)}}" class="m-2 h-75 btn btn-secondary">View</a>
+                    <a href="{{route('post.edit',$post->id)}}" class="m-2 h-75 btn btn-primary">Edit</a>
+                    <form action="{{route('post.destroy',$post->id)}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"  onclick="return confirm('Are you Sure you want to delete post : {{$post->title}}?')" class="m-2 h-75 btn btn-danger">Delete</>
+                    </form>
+
                 </td>
                 </tr>
                 @endforeach
-
             </tbody>
-          </table>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center m-3">
+        <span>
+            {{$posts->links()}}
+        </span>
     </div>
     @endsection
 
