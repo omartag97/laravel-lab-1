@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 
-//------------------------------CRUD Users------------------------------
+//--------------------------------- CRUD Users---------------------------------
 
 
 Route::get('/user/register',           [UserController::class ,'register'])->name('user.register');
@@ -29,7 +29,7 @@ Route::get('/user/logout',              [UserController::class ,'logout'])->name
 Route::post('/user/handlelogin',       [UserController::class ,'handlelogin'])->name('user.handlelogin');
 
 
-//------------------------------CRUD Posts------------------------------
+//--------------------------------- CRUD Posts ---------------------------------
 
 // Route::get('/',                 [PostController::class ,'index'])->name('post.index');
 // Route::get('/post/create',      [PostController::class ,'create'])->name('post.create');
@@ -43,9 +43,14 @@ Route::post('/user/handlelogin',       [UserController::class ,'handlelogin'])->
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/post/restore', [PostController::class, 'restore'])->name('post.restore');
+Route::get('/post/archive', [PostController::class, 'archive'])->name('post.archive');
 Route::get('/post/deleteOldPosts', [PostController::class, 'deleteOldPosts'])->name('post.queue');
+Route::get('/post/restoreAll', [PostController::class, 'restoreAll'])->name('post.restore.all');
+Route::post('/post/restore/{id}', [PostController::class, 'restore'])->name('post.restore');
 Route::resource('post', PostController::class)->middleware('auth');
+
+
+//--------------------------------- Comment ---------------------------------
 
 Route::get('/post/comment/{id}',      [CommentController::class, 'comment'])->name('post.comment');
 Route::post('/post/store-comment/{id}', [CommentController::class, 'storeComment'])->name('post.storeComment');

@@ -43,20 +43,21 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        // $request->validate([
-        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        // ]);
 
-
-        $image = $request->file('image')->getClientOriginalName();
-        $request->file('image')->storeAs('public/images/', $image);
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $name = time().Str::random(30).'.'.$image->getClientOriginalExtension();
+            $destPath = public_path('/images');
+            $image->move($destPath,$name);
+            $imagePath = 'images/' .$name;
+        }
 
         Post::create([
             'user_id' => $request->user_id,
             'title' => $request->title,
             'body' => $request->body,
             'slug' => Str::slug($request->title, '-'),
-            'image' => $image,
+            'image' => $imagePath,
         ]);
 
         return redirect()->route('post.index');
@@ -70,10 +71,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findorFail($id);
-        // $posts = Post::all();
         $posts = Post::with('comments')->get();
-        // $users = User::with('comments')->throw("posts")->get();
-        // dd($users);
         return view('view', compact('post', 'posts'));
     }
 
@@ -99,23 +97,26 @@ class PostController extends Controller
     public function update(PostRequest $request, $id)
     {
         $post = Post::findorFail($id);
-        if (Storage::exists('/public/images/'. $post->image)) {
-            Storage::delete('/public/images/'. $post->image);
+
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $name = time().Str::random(30).'.'.$image->getClientOriginalExtension();
+            $destPath = public_path('/images');
+            $image->move($destPath,$name);
+            $imagePath = 'images/' .$name;
         }
-        // dd('deleted');
 
-        $image = $request->file('image')->getClientOriginalName();
-        $request->file('image')->storeAs('public/images/', $image);
-
-        Post::create([
+        $post->update([
             'user_id' => $request->user_id,
             'title' => $request->title,
             'body' => $request->body,
             'slug' => Str::slug($request->title, '-'),
-            'image' => $image,
+            'image' => $imagePath,
         ]);
 
+
         return redirect()->route('post.index');
+
     }
 
     /**
@@ -128,7 +129,7 @@ class PostController extends Controller
         return redirect()->route('post.index');
     }
 
-    public function restore()
+    public function archive()
     {
 
         $posts = Post::onlyTrashed()->get();
@@ -136,10 +137,28 @@ class PostController extends Controller
         return view('restore', compact('posts'));
     }
 
+    public function restore($id)
+    {
+        Post::withTrashed()->find($id)->restore();
+
+        return back();
+    }
+
+    public function restoreAll(Request $request)
+    {
+
+
+        Post::onlyTrashed()->restore();
+
+        return back();
+    }
+
     public function deleteOldPosts()
     {
         // dispatch((new PruneOldPostsJob($data));
 
         return Queue::push(new PruneOldPostsJob());
+
+
     }
 }

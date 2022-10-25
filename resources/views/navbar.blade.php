@@ -13,29 +13,49 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-        <a class="navbar-brand" href="#">ITI</a>
+        <a class="navbar-brand" href="#">
+            <h3>
+                ITI
+            </h3>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/post">All posts</a>
+                <a style="font" class="ml-3 nav-link active" aria-current="page" href="/post">
+                    <h3>
+                        All posts
+                    </h3>
+                </a>
             </li>
             </ul>
             <div>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     @if (Auth::guest())
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/user/register">Registeration</a>
+                        <a class="nav-link active" aria-current="page" href="/user/register">
+                            <h4>
+                                Registeration
+                            </h4>
+                        </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/user/login">Login</a>
+                        <a class="nav-link active" aria-current="page" href="/user/login">
+                            <h4>
+                                Login
+                            </h4>
+                        </a>
                     </li>
                     @else
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/user/logout">logout</a>
+                        <a class="nav-link active" aria-current="page" href="/user/logout">
+                            <h4>
+                                Logout
+                            </h4>
+                        </a>
                     </li>
                     @endif
                 </ul>

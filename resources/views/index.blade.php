@@ -8,7 +8,7 @@ Show data
 <br>
 <div class="d-flex justify-content-center m-3">
     <a href="post/create" class="m-3 btn btn-success">Add New Post</a>
-    <a href="{{route('post.restore')}}" class="m-3 btn btn-success">Restore Deleted Posts</a>
+    <a href="{{route('post.archive')}}" class="m-3 btn btn-success">Restore Deleted Posts</a>
 </div>
 <div class="container">
     <table class="table">
@@ -29,7 +29,7 @@ Show data
                 <th scope="row">{{$post->id}}</th>
                 <td>{{$post->title}}</td>
                 <td>{{$post->slug}}</td>
-                <td> <img width="50px" src="{{asset('storage/images/' . $post->image)}}"</td>
+                <td> <img width="50px" src="{{asset($post->image)}}"</td>
                 <td>{{$post->user->name}}</td>
                 <td>{{$post->created_at->format('Y-m-d')}}</td>
                 <td class="d-flex justify-content-center  ">

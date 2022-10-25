@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PostRequest extends FormRequest
 {
@@ -25,9 +26,13 @@ class PostRequest extends FormRequest
     {
         return [
             'user_id' => 'exists:users,id',
-            'title' => "required|min:3 |unique:posts,title,$this->post",
+            'title' => [
+                'required',
+                'min:3',
+                Rule::unique('posts')->ignore($this->post),
+            ],
             'body' => 'required|min:10',
-            // 'image' => 'required|mimes:jpeg,png,jpg',
+            'image' => 'required|image|mimes:jpeg,png,jpg',
         ];
     }
 }

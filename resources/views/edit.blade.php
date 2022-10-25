@@ -6,9 +6,9 @@ Create New post
 
 @section('content')
 
-<form action="{{route('post.update',$post->id)}}" method="POST">
+<form action="{{route('post.update',$post->id)}}" method="POST" enctype="multipart/form-data">
     @csrf
-    @method('PUT')
+    @method('PATCH')
 
     <label for="title">Title :</label><br>
     <input type="text" id="title" name="title" value="{{$post->title}}"><br><br>
@@ -23,12 +23,12 @@ Create New post
     @enderror
 
     <label for="image">Poster :</label><br>
-    <input type="file" name="image"><br><br>
-    @error('image_name')
+    <input type="file" id="image" name="image" value=""><br><br>
+    @error('image')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 
-    <select class="form-control" id="selectUser" name="user_selected" required focus>
+    <select class="form-control" id="selectUser" name="user_id" required focus>
         <option value="" disabled selected>Please select user</option>
         @foreach($users as $user)
         <option value="{{$user->id}}">{{ $user->name }}</option>
