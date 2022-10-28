@@ -33,7 +33,7 @@ View data
             Users Comments
         </div>
         <div class="card-body">
-            <form action="{{route('post.storeComment',$post->id)}}" method="POST" class="form-horizontal">
+            <form action="{{route('posts.storeComment',$post->id)}}" method="POST" class="form-horizontal">
                 @csrf
                 @method('POST')
                 <div class="form-group">

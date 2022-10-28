@@ -40,7 +40,7 @@ class UserController extends Controller
         // saving the data into the database
         $user->save();
 
-        return redirect()->route('post.index');
+        return redirect()->route('posts.index');
         // return JSON API (User access token)
         // return response()->json([
         //     'acces_token' => $user->acces_token,
@@ -73,7 +73,7 @@ class UserController extends Controller
             //     'name' => Auth::user()->name
             // ]);
 
-            return redirect()->route('post.index');
+            return redirect()->route('posts.index');
         } else {
             echo 'Not Valid Credintial!';
             return redirect()->route('user.register');

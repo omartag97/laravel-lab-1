@@ -60,7 +60,7 @@ class PostController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('post.index');
+        return redirect()->route('posts.index');
 
     }
 
@@ -115,7 +115,7 @@ class PostController extends Controller
         ]);
 
 
-        return redirect()->route('post.index');
+        return redirect()->route('posts.index');
 
     }
 
@@ -126,7 +126,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         Post::findorFail($id)->delete();
-        return redirect()->route('post.index');
+        return redirect()->route('posts.index');
     }
 
     public function archive()

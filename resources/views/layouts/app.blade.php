@@ -30,7 +30,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <a style="text-decoration: none; color:black;" href="{{route('post.index')}}">All Posts</a>
+                        <a style="text-decoration: none; color:black;" href="{{route('posts.index')}}">All Posts</a>
 
                     </ul>
 

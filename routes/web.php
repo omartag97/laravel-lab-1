@@ -43,11 +43,11 @@ Route::post('/user/handlelogin',       [UserController::class ,'handlelogin'])->
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/post/archive', [PostController::class, 'archive'])->name('post.archive');
-Route::get('/post/deleteOldPosts', [PostController::class, 'deleteOldPosts'])->name('post.queue');
-Route::get('/post/restoreAll', [PostController::class, 'restoreAll'])->name('post.restore.all');
-Route::post('/post/restore/{id}', [PostController::class, 'restore'])->name('post.restore');
-Route::resource('post', PostController::class)->middleware('auth');
+Route::get('/posts/archive', [PostController::class, 'archive'])->name('post.archive');
+Route::get('/posts/deleteOldPosts', [PostController::class, 'deleteOldPosts'])->name('post.queue');
+Route::get('/posts/restoreAll', [PostController::class, 'restoreAll'])->name('post.restore.all');
+Route::post('/posts/restore/{id}', [PostController::class, 'restore'])->name('post.restore');
+Route::resource('posts', PostController::class)->middleware('auth');
 
 
 //--------------------------------- Comment ---------------------------------

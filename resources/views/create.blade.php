@@ -6,7 +6,7 @@ Create New post
 
 @section('content')
 
-<form action="{{route('post.store')}}" method="POST" enctype="multipart/form-data">
+<form action="{{route('posts.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('POST')
 
