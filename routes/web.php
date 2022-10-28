@@ -43,17 +43,17 @@ Route::post('/user/handlelogin',       [UserController::class ,'handlelogin'])->
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/posts/archive', [PostController::class, 'archive'])->name('post.archive');
-Route::get('/posts/deleteOldPosts', [PostController::class, 'deleteOldPosts'])->name('post.queue');
-Route::get('/posts/restoreAll', [PostController::class, 'restoreAll'])->name('post.restore.all');
-Route::post('/posts/restore/{id}', [PostController::class, 'restore'])->name('post.restore');
+Route::get('/posts/archive', [PostController::class, 'archive'])->name('posts.archive');
+Route::get('/posts/deleteOldPosts', [PostController::class, 'deleteOldPosts'])->name('posts.queue');
+Route::get('/posts/restoreAll', [PostController::class, 'restoreAll'])->name('posts.restore.all');
+Route::post('/posts/restore/{id}', [PostController::class, 'restore'])->name('posts.restore');
 Route::resource('posts', PostController::class)->middleware('auth');
 
 
 //--------------------------------- Comment ---------------------------------
 
-Route::get('/post/comment/{id}',      [CommentController::class, 'comment'])->name('post.comment');
-Route::post('/post/store-comment/{id}', [CommentController::class, 'storeComment'])->name('post.storeComment');
+Route::get('/posts/comment/{id}',      [CommentController::class, 'comment'])->name('posts.comment');
+Route::post('/posts/store-comment/{id}', [CommentController::class, 'storeComment'])->name('posts.storeComment');
 
 
 
