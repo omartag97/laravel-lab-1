@@ -24,7 +24,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a style="font" class="ml-3 nav-link active" aria-current="page" href="/post">
+                <a style="font" class="ml-3 nav-link active" aria-current="page" href="/posts">
                     <h3>
                         All posts
                     </h3>

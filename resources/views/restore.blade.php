@@ -8,8 +8,8 @@ Restore Deleted data
 
 <br>
     <div class="d-flex justify-content-center m-3">
-    <a href="{{route('post.index')}}" class="m-3 btn btn-success">All Posts</a>
-    <a href="{{route('post.restore.all')}}" class="m-3 btn btn-success">Restore All</a>
+    <a href="{{route('posts.index')}}" class="m-3 btn btn-success">All Posts</a>
+    <a href="{{route('posts.restore.all')}}" class="m-3 btn btn-success">Restore All</a>
     </div>
     <div class="container">
         <table class="table">
@@ -30,7 +30,7 @@ Restore Deleted data
                 <td>{{$post->user->name}}</td>
                 <td>{{$post->deleted_at}}</td>
                 <td class="d-flex justify-content-center  ">
-                    <form action="{{route('post.restore',$post->id)}}" method="POST">
+                    <form action="{{route('posts.restore',$post->id)}}" method="POST">
                         @csrf
                         @method('POST')
                         <button type="submit" onclick="return confirm('Are you Sure you want to restore post : {{$post->title}}?')" class="m-2 h-75 btn btn-danger">Restore</>
