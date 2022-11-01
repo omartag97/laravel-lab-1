@@ -20,34 +20,22 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        // saving the value in varaible (Password)
-        $password = $request->input('password');
+            // saving data into users table
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            $token = $user->createToken(time())->plainTextToken;
+            // return JSON API (User access token)
+            return response()->json([
+                'name' => $user->name,
+                'email' => $user->email,
+                'image' => $user->image,
+                'token' => $token,
+            ]);
+        }
 
-        // creating new object from model User
-        $user = new User();
-
-
-        // Storing name , email and password into the database
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-
-        // Encryption (Hashing the password)
-        $user->password = Hash::make($password);
-
-        // Creating Random acces_token
-        // $user->acces_token = str::random(64);
-
-        // saving the data into the database
-        $user->save();
-
-        return redirect()->route('posts.index');
-        // return JSON API (User access token)
-        // return response()->json([
-        //     'acces_token' => $user->acces_token,
-        //     'name' => $user->name,
-        //     'email' => $user->email
-        // ]);
-    }
 
     public function login()
     {
@@ -56,27 +44,20 @@ class UserController extends Controller
 
     public function handlelogin(Request $request)
     {
-        // Get user Credintial (Email & Password)
-        $cred = array('email' => $request->email, 'password' => $request->password);
 
-        // Validation (if the Email & the Password is existing)
-        if (Auth::attempt($cred)) {
-            // checking if the current user has access_token or not
-            // if (!isset(Auth::user()->access_token)) {
-            //     Auth::user()->access_token = str::random(64);
-            //     Auth::user()->save;
-            // }
-            // return [(Auth::user) >> the current user] name , email and access token
-            // return response()->json([
-            //     'acces_token' => Auth::user()->acces_token,
-            //     'email' => Auth::user()->email,
-            //     'name' => Auth::user()->name
-            // ]);
-
-            return redirect()->route('posts.index');
+        if (!Auth::attempt($request->only(['email', 'password']))) {
+            return response()->json([
+                'message' => 'Email & Password does not match with our record.',
+            ], 401);
         } else {
-            echo 'Not Valid Credintial!';
-            return redirect()->route('user.register');
+            $user = User::where('email', $request->email)->first();
+            $token = $user->createToken(time())->plainTextToken;
+            return response()->json([
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'token' => $token
+            ]);
         }
     }
 

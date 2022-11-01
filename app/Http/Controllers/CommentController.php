@@ -8,6 +8,12 @@ use App\Models\Comment;
 
 class CommentController extends Controller
 {
+    public function __invoke()
+    {
+        return [
+            'user' => auth()->user()
+        ];
+    }
 
     public function storeComment(Request $request, $id)
     {
